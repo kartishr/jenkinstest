@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    environment {
+        TAG              = "3.0.${BUILD_NUMBER}"
+        AWS_REGION       = "eu-west-2"
+        GITBRANCH        = "sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()"
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                 sh "echo $GITBRANCH"
+                // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
+            }
+            //post {
+              //  always {
+                //    archiveArtifacts artifacts: '*.zip'
+               // }
+           // }
+        }
+     }
