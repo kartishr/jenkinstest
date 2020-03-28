@@ -1,0 +1,9 @@
+[Unit]
+Description=Druid
+
+[Service]
+ExecStart=/opt/druid/bin/start-micro-quickstart
+ExecStop=/opt/druid/bin/service --down
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,2 @@
+[singlenode]
+192.168.1.31  ansible_ssh_user=kar ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=kar

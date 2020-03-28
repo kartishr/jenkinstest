@@ -1,0 +1,5 @@
+---
+- hosts: singlenode
+  become: yes
+  roles:
+    - druid-single-node
