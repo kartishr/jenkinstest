@@ -3,6 +3,8 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
+        FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        GIT_BRANCH       = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
     }
 
     parameters {
@@ -18,14 +20,14 @@ pipeline {
          stage('Deploy Jobs') {
             when {
                expression { 
-                   return env.BRANCH_NAME != 'master'
+                   return env.GIT_BRANCH != 'master'
                    params.environment == 'jobs' 
                    }
             }
             steps {
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
-                   sh "echo $BRANCH_NAME"
+                   sh "echo $GIT_BRANCH"
                 }
             }
         }
