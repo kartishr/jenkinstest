@@ -1,7 +1,7 @@
-#- name: Download druid zip file
-#  get_url:
-#    url: http://archive.apache.org/dist/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz
-#    dest: /tmp
+- name: Download druid zip file
+  get_url:
+    url: http://archive.apache.org/dist/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz
+    dest: /tmp
 
 - name: create directory
   file:
