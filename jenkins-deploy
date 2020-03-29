@@ -19,9 +19,7 @@ pipeline {
 
          stage('Deploy Jobs') {
             when {
-               expression { 
-                     "$GIT_BRANCH" != 'master';
-                   }
+               not {branch 'master'}
             }
             stages {
                 stage('Deploy into Jobs') {
@@ -41,7 +39,7 @@ pipeline {
 
         stage('Deploy Community') {
             when {
-                expression {  "$GIT_BRANCH" != 'master'; }
+               not {branch 'master'}
                         }
             stages {
                 stage('Deploy into Community'){
