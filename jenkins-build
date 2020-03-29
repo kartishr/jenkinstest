@@ -12,7 +12,9 @@ pipeline {
                  echo ${GIT_BRANCH}
                  git_branch=$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)
                  echo $git_branch
-                 php build.php ${TAG} echo $git_branch
+                 touch one.txt
+                 zip one.zip one.txt
+                 //php build.php ${TAG} echo $git_branch
                  '''
             }
             post {
