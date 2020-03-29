@@ -17,12 +17,8 @@ pipeline {
 
          stage('Deploy Jobs') {
             when {
-            parameters = jobs
-            not { branch 'master' }
+               expression { params.environment == 'jobs' }
             }
-            environment {
-                ZIP_BALL = sh(script: 'ls | grep "$TAG" | tail -1', , returnStdout: true).trim()
-                }
             steps {
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
@@ -33,12 +29,8 @@ pipeline {
 
         stage('Deploy Community') {
             when {
-                        parameters = community
-                        not { branch 'master' }
+                expression { params.environment == 'community' }
                         }
-            environment {
-                ZIP_BALL = sh(script: 'ls | grep "$TAG" | tail -1', , returnStdout: true).trim()
-                }
             steps {
                 withAWS(region: env.AWS_REGION) {
                      sh "echo community"
