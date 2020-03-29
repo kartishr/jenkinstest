@@ -3,7 +3,7 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
-        branch           = "$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
+        BRANCH           = "$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
     }
 
     parameters {
@@ -21,7 +21,7 @@ pipeline {
                expression { params.environment == 'jobs' }
             }
             steps {
-                if ( master =! $branch){
+                if ( master =! "$branch"){
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
                 }
@@ -38,7 +38,7 @@ pipeline {
                 expression { params.environment == 'community' }
                         }
             steps {
-                if ( master =! $branch){
+                if ( master =! "$branch"){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo community"
                 }
@@ -53,7 +53,7 @@ pipeline {
                 expression { params.environment == 'community' }
                         }
             steps {
-                if ( master == $branch){
+                if ( master == "$branch"){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo MASTER"
                 }
