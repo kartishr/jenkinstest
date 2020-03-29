@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+    environment {
+        TAG              = "3.0.${BUILD_NUMBER}"
+        AWS_REGION       = "eu-west-2"
+        FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        GIT_BRANCH       = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
+    }
+
+    parameters {
+        choice(
+            description: 'Deploy to Jobs or to Community?',
+            name: 'environment',
+            choices: ['jobs', 'community']
+             )
+    }
+
+    stages {
+
+         stage('Deploy Jobs') {
+            when {
+               expression { 
+                    params.environment == 'jobs' 
+                   }
+            }
+            stages {
+                stage('Deploy into Jobs') {
+                  when { 
+                       expression { "$GIT_BRANCH" == 'master'; }
+                   }
+                  steps {
+                      withAWS(region: env.AWS_REGION) {
+                      sh "echo jobs"
+                      sh "echo $GIT_BRANCH"
+                      }
+                  }
+                }
+           }
+        }
+
+
+        stage('Deploy Community') {
+            when {
+                expression { params.environment == 'community' }
+                        }
+            stages {
+                stage('Deploy into Community'){
+                  when { 
+                      expression { "$GIT_BRANCH" == 'master'; }
+                   }
+                  steps {
+                      withAWS(region: env.AWS_REGION) {
+                      sh "echo community"
+                      sh "echo '$GIT_BRANCH'"
+                      }
+                  }
+                }
+           }
+        }
+        stage('TEST MASTER') {
+            when {
+                expression { "$GIT_BRANCH" != 'master'; }
+                        }
+            steps {
+                withAWS(region: env.AWS_REGION) {
+                     sh "echo MASTER"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
