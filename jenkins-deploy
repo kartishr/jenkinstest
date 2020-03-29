@@ -18,7 +18,10 @@ pipeline {
          stage('Deploy Jobs') {
             when {
               return env.BRANCH_NAME != 'master';
-               expression { params.environment == 'jobs' && return env.BRANCH_NAME != 'master' }
+               expression { 
+                   return env.BRANCH_NAME != 'master'
+                   params.environment == 'jobs' 
+                   }
             }
             steps {
                 withAWS(region: env.AWS_REGION) {
