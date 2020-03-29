@@ -20,8 +20,7 @@ pipeline {
          stage('Deploy Jobs') {
             when {
                expression { 
-                   return env.GIT_BRANCH != 'master'
-                   params.environment == 'jobs' 
+                   env.GIT_BRANCH != 'master' && params.environment == 'jobs' 
                    }
             }
             steps {
