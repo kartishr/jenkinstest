@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    environment {
+        TAG              = "3.0.${BUILD_NUMBER}"
+        AWS_REGION       = "eu-west-2"
+
+        git_branch=$(echo $GIT_BRANCH | sed -e 's/\\//-/g')
+    }
+
+    parameters {
+        choice(
+            description: 'Deploy to Jobs or to Community?',
+            name: 'environment',
+            choices: ['jobs', 'community']
+             )
+    }
+
+    stages {
+
+         stage('Deploy Jobs') {
+            when {
+            parameters = jobs
+            not { branch 'master' }
+            }
+            environment {
+                ZIP_BALL = sh(script: 'ls | grep "$TAG" | tail -1', , returnStdout: true).trim()
+                }
+            steps {
+                withAWS(region: env.AWS_REGION) {
+                   sh "echo jobs"
+                }
+            }
+        }
+
+
+        stage('Deploy Community') {
+            when {
+                        parameters = community
+                        not { branch 'master' }
+                        }
+            environment {
+                ZIP_BALL = sh(script: 'ls | grep "$TAG" | tail -1', , returnStdout: true).trim()
+                }
+            steps {
+                withAWS(region: env.AWS_REGION) {
+                     sh "echo community"
+                }
+            }
+        }
+
+
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
