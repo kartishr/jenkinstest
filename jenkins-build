@@ -3,7 +3,8 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
-        GITBRANCH        = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        GIT_BRANCH       = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
         //GITBRANCH        = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
 
@@ -11,7 +12,7 @@ pipeline {
         stage("Build") {
             steps {
                  sh '''
-                 echo $GITBRANCH
+                 echo $GIT_BRANCH
                  '''
                 // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
             }
