@@ -17,6 +17,7 @@ pipeline {
 
          stage('Deploy Jobs') {
             when {
+              return env.BRANCH_NAME != 'master';
                expression { params.environment == 'jobs' }
             }
             steps {
