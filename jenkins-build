@@ -3,7 +3,8 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
-        GITBRANCH        = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+        GITBRANCH        = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
+        //GITBRANCH        = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
 
     stages {
