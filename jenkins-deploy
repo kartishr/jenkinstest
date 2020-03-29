@@ -18,6 +18,7 @@ pipeline {
          stage('Deploy Jobs') {
             when {
                expression { params.environment == 'jobs' }
+               BRANCH_NAME =!~ /(master)/
             }
             steps {
                 withAWS(region: env.AWS_REGION) {
@@ -30,10 +31,22 @@ pipeline {
         stage('Deploy Community') {
             when {
                 expression { params.environment == 'community' }
+                BRANCH_NAME =!~ /(master)/
                         }
             steps {
                 withAWS(region: env.AWS_REGION) {
                      sh "echo community"
+                }
+            }
+        }
+        stage('TEST MASTER') {
+            when {
+                expression { params.environment == 'community' }
+                BRANCH_NAME ==~ /(master)/
+                        }
+            steps {
+                withAWS(region: env.AWS_REGION) {
+                     sh "echo MASTER"
                 }
             }
         }
