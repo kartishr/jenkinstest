@@ -17,13 +17,13 @@ pipeline {
 
     stages {
 
-        //  stage('Deploy Jobs') {
-        //     when {
-        //        expression { 
-        //             params.environment == 'jobs' 
-        //            }
-        //     }
-        //     stages {
+         stage('Deploy Jobs') {
+            when {
+               expression { 
+                    params.environment == 'jobs' 
+                   }
+            }
+            stages {
                 stage('Deploy into Jobs') {
                   when { 
                        expression { "$GIT_BRANCH" == 'master'; }
@@ -35,15 +35,15 @@ pipeline {
                       }
                   }
                 }
-          //  }
-        // }
+           }
+        }
 
 
-        // stage('Deploy Community') {
-        //     when {
-        //         expression { params.environment == 'community' }
-        //                 }
-        //     stages {
+        stage('Deploy Community') {
+            when {
+                expression { params.environment == 'community' }
+                        }
+            stages {
                 stage('Deploy into Community'){
                   when { 
                       expression { "$GIT_BRANCH" == 'master'; }
@@ -55,8 +55,8 @@ pipeline {
                       }
                   }
                 }
-           // }
-        //}
+           }
+        }
         stage('TEST MASTER') {
             when {
                 expression { "$GIT_BRANCH" != 'master'; }
