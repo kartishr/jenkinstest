@@ -17,16 +17,16 @@ pipeline {
 
     stages {
 
-         stage('Deploy Jobs') {
-            when {
-               expression { 
-                    params.environment == 'jobs' 
-                   }
-            }
-            stages {
+        //  stage('Deploy Jobs') {
+        //     when {
+        //        expression { 
+        //             params.environment == 'jobs' 
+        //            }
+        //     }
+        //     stages {
                 stage('Deploy into Jobs') {
                   when { 
-                       expression { env.GIT_BRANCH != 'master'; }
+                       expression { "$GIT_BRANCH" != 'master'; }
                    }
                   steps {
                       withAWS(region: env.AWS_REGION) {
@@ -39,14 +39,14 @@ pipeline {
          }
 
 
-        stage('Deploy Community') {
-            when {
-                expression { params.environment == 'community' }
-                        }
-            stages {
+        // stage('Deploy Community') {
+        //     when {
+        //         expression { params.environment == 'community' }
+        //                 }
+        //     stages {
                 stage('Deploy into Community'){
                   when { 
-                      expression { env.GIT_BRANCH != 'master'; }
+                      expression { "$GIT_BRANCH" != 'master'; }
                    }
                   steps {
                       withAWS(region: env.AWS_REGION) {
@@ -59,7 +59,7 @@ pipeline {
         }
         stage('TEST MASTER') {
             when {
-                expression { env.GIT_BRANCH == 'master'; }
+                expression { "$GIT_BRANCH" == 'master'; }
                         }
             steps {
                 withAWS(region: env.AWS_REGION) {
