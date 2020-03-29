@@ -25,6 +25,7 @@ pipeline {
             steps {
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
+                   sh "echo $BRANCH_NAME"
                 }
             }
         }
