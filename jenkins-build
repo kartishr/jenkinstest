@@ -11,7 +11,7 @@ pipeline {
             steps {
                  sh 
                  '''
-                 "echo "$(git rev-parse --abbrev-ref HEAD)"
+                 echo "$(git rev-parse --abbrev-ref HEAD)"
                  '''
                 // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
             }
