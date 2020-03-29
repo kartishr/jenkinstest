@@ -10,9 +10,8 @@ pipeline {
 
     stages {
         stage("Build") {
-            
+              GITBRANCH     = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
             steps {
-                GITBRANCH     = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                  sh '''
                  echo $GITBRANCH
                  echo $GIT_BRANCH
