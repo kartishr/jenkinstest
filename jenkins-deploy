@@ -24,7 +24,7 @@ pipeline {
                    }
             }
             stages {
-                stage {
+                stage('Deploy into Jobs') {
                   when { not {branch 'master'} }
                   steps {
                       withAWS(region: env.AWS_REGION) {
@@ -42,7 +42,7 @@ pipeline {
                 expression { params.environment == 'community' }
                         }
             stages {
-                stage {
+                stage('Deploy into Community'){
                   when { not {branch 'master'} }
                   steps {
                       withAWS(region: env.AWS_REGION) {
