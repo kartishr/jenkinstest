@@ -18,7 +18,7 @@ pipeline {
          stage('Deploy Jobs') {
             when {
                expression { params.environment == 'jobs' }
-               BRANCH_NAME =!~ /(master)/
+               not { branch 'master'}
             }
             steps {
                 withAWS(region: env.AWS_REGION) {
