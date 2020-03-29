@@ -3,7 +3,7 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
-        branch           = $(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)
+        branch           = "$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
     }
 
     parameters {
