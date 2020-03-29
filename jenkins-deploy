@@ -20,14 +20,15 @@ pipeline {
          stage('Deploy Jobs') {
             when {
                expression { 
+                    return env.$GIT_BRANCH == 'master'
                     params.environment == 'jobs' 
                    }
             }
-            stages {
-                stage('Deploy into Jobs') {
-                  when { 
-                       expression { "$GIT_BRANCH" == 'master'; }
-                   }
+            // stages {
+            //     stage('Deploy into Jobs') {
+            //       when { 
+            //            expression { "$GIT_BRANCH" == 'master'; }
+            //        }
                   steps {
                       withAWS(region: env.AWS_REGION) {
                       sh "echo jobs"
@@ -35,8 +36,8 @@ pipeline {
                       }
                   }
                 }
-           }
-        }
+        //    }
+        // }
 
 
         stage('Deploy Community') {
