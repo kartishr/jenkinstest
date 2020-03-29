@@ -9,7 +9,10 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                 sh "echo $(git rev-parse --abbrev-ref HEAD)"
+                 sh 
+                 '''
+                 "echo "$(git rev-parse --abbrev-ref HEAD)"
+                 '''
                 // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
             }
             //post {
