@@ -5,12 +5,14 @@ pipeline {
         AWS_REGION       = "eu-west-2"
         FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
         GIT_BRANCH       = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
-        GITBRANCH        = "${sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()}"
+       // GITBRANCH        = "${sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()}"
     }
 
     stages {
         stage("Build") {
+            
             steps {
+                GITBRANCH     = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
                  sh '''
                  echo $GITBRANCH
                  echo $GIT_BRANCH
