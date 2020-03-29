@@ -59,7 +59,7 @@ pipeline {
         //}
         stage('TEST MASTER') {
             when {
-                expression { "$GIT_BRANCH" == 'master'; }
+                expression { "$GIT_BRANCH" != 'master'; }
                         }
             steps {
                 withAWS(region: env.AWS_REGION) {
