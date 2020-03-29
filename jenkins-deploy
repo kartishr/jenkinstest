@@ -3,6 +3,7 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
+        branch           = $(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)
     }
 
     parameters {
@@ -17,12 +18,16 @@ pipeline {
 
          stage('Deploy Jobs') {
             when {
-            not { branch 'master'}
                expression { params.environment == 'jobs' }
             }
             steps {
+                if ( master =! $branch){
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
+                }
+                }
+                else {
+                   echo "Its master branch"
                 }
             }
         }
@@ -30,23 +35,31 @@ pipeline {
 
         stage('Deploy Community') {
             when {
-                not { branch 'master' }
                 expression { params.environment == 'community' }
                         }
             steps {
+                if ( master =! $branch){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo community"
+                }
+                }
+                else {
+                   echo "Its master branch"
                 }
             }
         }
         stage('TEST MASTER') {
             when {
                 expression { params.environment == 'community' }
-                branch 'master'
                         }
             steps {
+                if ( master == $branch){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo MASTER"
+                }
+                }
+                 else {
+                   echo "Its not master branch"
                 }
             }
         }
