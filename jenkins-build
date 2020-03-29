@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                gitbranch=`sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()`
+                gitbranch="sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()"
                  sh '''
                  echo $gitbranch
                  '''
