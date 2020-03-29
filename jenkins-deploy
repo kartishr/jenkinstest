@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy Community') {
             when {
                 expression { params.environment == 'community' }
-                BRANCH_NAME =!~ /(master)/
+                 not { branch 'master'}
                         }
             steps {
                 withAWS(region: env.AWS_REGION) {
@@ -42,7 +42,7 @@ pipeline {
         stage('TEST MASTER') {
             when {
                 expression { params.environment == 'community' }
-                BRANCH_NAME ==~ /(master)/
+                branch 'master'
                         }
             steps {
                 withAWS(region: env.AWS_REGION) {
