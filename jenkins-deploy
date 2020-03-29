@@ -20,14 +20,8 @@ pipeline {
                expression { params.environment == 'jobs' }
             }
             steps {
-                branch="$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
-                if ( master =! "$branch"){
                 withAWS(region: env.AWS_REGION) {
                    sh "echo jobs"
-                }
-                }
-                else {
-                   echo "Its master branch"
                 }
             }
         }
@@ -38,14 +32,8 @@ pipeline {
                 expression { params.environment == 'community' }
                         }
             steps {
-                branch="$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
-                if ( master =! "$branch"){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo community"
-                }
-                }
-                else {
-                   echo "Its master branch"
                 }
             }
         }
@@ -54,14 +42,8 @@ pipeline {
                 expression { params.environment == 'community' }
                         }
             steps {
-                branch="$(echo $GIT_BRANCH | sed -e 's/-//g' | sed -e 's/origin//g' | cut -c2-50)"
-                if ( master == "$branch"){
                 withAWS(region: env.AWS_REGION) {
                      sh "echo MASTER"
-                }
-                }
-                 else {
-                   echo "Its not master branch"
                 }
             }
         }
