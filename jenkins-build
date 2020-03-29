@@ -12,7 +12,7 @@ pipeline {
         stage("Build") {
             steps {
                  sh '''
-                 echo $GIT_BRANCH
+                 echo $GIT_BRANCH | sed -e 's/\//-/g'
                  '''
                 // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
             }
