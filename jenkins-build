@@ -3,15 +3,14 @@ pipeline {
     environment {
         TAG              = "3.0.${BUILD_NUMBER}"
         AWS_REGION       = "eu-west-2"
-        GITBRANCH        = "sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()"
+        GITBRANCH        = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     }
 
     stages {
         stage("Build") {
             steps {
-                gitbranch="sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()"
                  sh '''
-                 echo $gitbranch
+                 echo $GITBRANCH
                  '''
                 // sh "php build.php ${TAG} echo ${GIT_BRANCH} | sed -e ‘s/\//-/g'
             }
