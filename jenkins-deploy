@@ -35,8 +35,8 @@ pipeline {
                       }
                   }
                 }
-            }
-         }
+          //  }
+        // }
 
 
         // stage('Deploy Community') {
@@ -55,8 +55,8 @@ pipeline {
                       }
                   }
                 }
-            }
-        }
+           // }
+        //}
         stage('TEST MASTER') {
             when {
                 expression { "$GIT_BRANCH" == 'master'; }
