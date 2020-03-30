@@ -22,6 +22,19 @@ pipeline {
                 echo "Release scope selected: ${env.RELEASE_SCOPE}"
             }
         }
+        stage('Deploy DEV jobs') {
+        when {
+            expression { params.environment == 'DEV-jobs' }
+            }
+        environment {
+            ZIP_BALL = sh(script: 'echo params.Version | cut -d"/" -f 5', , returnStdout: true).trim()
+            }
+        steps {
+            withAWS(region: env.AWS_REGION ,credentials:'restless-test-deployflow') {
+                sh "echo $ZIP_BALL"
+            }
+            }
+        }
         stage("Build") {
             steps {
                  sh '''
