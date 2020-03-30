@@ -40,7 +40,7 @@ pipeline {
             }
         steps {
             withAWS(region: env.AWS_REGION ,credentials:'restless-test-deployflow') {
-                sh "echo $ZIP_BALL"
+                sh "echo $params.RELEASE_SCOPE"
             }
             }
         }
