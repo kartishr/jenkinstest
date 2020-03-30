@@ -33,9 +33,6 @@ pipeline {
         when {
             expression { params.environment == 'DEV-jobs' }
             }
-        environment {
-            //ZIP_BALL = sh(script: 'echo $VERSION | cut -d"/" -f 5', , returnStdout: true).trim()
-            }
         steps {
             withAWS(region: env.AWS_REGION ,credentials:'restless-test-deployflow') {
                 sh "ZIP_BALL='echo ${env.RELEASE_SCOPE} | cut -d\"/\" -f 5' && echo $ZIP_BALL"
