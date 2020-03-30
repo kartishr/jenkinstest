@@ -46,11 +46,11 @@ pipeline {
         //          //php build.php ${TAG} echo $git_branch
         //          '''
         //     }
-            post {
-                  always {
-                    archiveArtifacts artifacts: '*.zip'
-                }
-            }
+            // post {
+            //       always {
+            //         archiveArtifacts artifacts: '*.zip'
+            //     }
+            // }
        // }
      }
 }
