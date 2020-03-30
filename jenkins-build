@@ -18,10 +18,10 @@ pipeline {
                 script {
                     // Prepare a list and write to file
                     sh "aws s3api list-objects --bucket restless-jenkins-build  --query 'Contents[].{Key: Key}' --output text > ${WORKSPACE}/list"
-
+                    sh "echo ${WORKSPACE}/list | cut -d'/' -f 5 > ${WORKSPACE}/list"
                     // Load the list into a variable
                     env.LIST = readFile (file: "${WORKSPACE}/list")
-
+                    
                     // Show the select input
                     env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
                             parameters: [choice(name: 'Version', choices: env.LIST, description: 'What is the release scope?')]
@@ -40,8 +40,7 @@ pipeline {
         steps {
             withAWS(region: env.AWS_REGION ,credentials:'restless-test-deployflow') {
                 sh '''
-                ZIP_BALL=$(echo "${env.RELEASE_SCOPE}" | cut -d'/' -f 5)
-                echo $ZIP_BALL
+                echo ${params.Version}
                 '''
             }
             }
