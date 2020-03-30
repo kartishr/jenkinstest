@@ -18,7 +18,7 @@
     extra_opts: [--strip-components=1]
     remote_src: yes
 
-- name: Download druid zip file
+- name: Download zookeeper zip file
   get_url:
     url: https://archive.apache.org/dist/zookeeper/zookeeper-{{zookeeper-version-number}}/zookeeper-{{zookeeper-version-number}}.tar.gz
     dest: /tmp
