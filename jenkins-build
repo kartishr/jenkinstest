@@ -5,6 +5,13 @@ pipeline {
         AWS_REGION       = "eu-west-2"
     }
 
+   parameters {
+        choice(
+            description: 'Deploy to Jobs or to Community?',
+            name: 'environment',
+            choices: ['DEV-jobs', 'DEV-community', 'UAT-jobs', 'UAT-community', 'PROD-jobs', 'PROD-community']
+             )
+    }
     stages {
         stage("Release scope") {
             steps {
