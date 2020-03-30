@@ -19,7 +19,7 @@ pipeline {
                     // Prepare a list and write to file
                     sh "aws s3api list-objects --bucket restless-jenkins-build  --query 'Contents[].{Key: Key}' --output text > ${WORKSPACE}/list"
                     sh "cat ${WORKSPACE}/list"
-                    sh "cat ${WORKSPACE}/list | cut -d'/' -f 5 > ${WORKSPACE}/list"
+                    sh "cat ${WORKSPACE}/list | cut -d\"/\" -f 5 > ${WORKSPACE}/list"
                     // Load the list into a variable
                     env.LIST = readFile (file: "${WORKSPACE}/list")
                     
