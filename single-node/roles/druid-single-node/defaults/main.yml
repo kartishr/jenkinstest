@@ -1,0 +1,5 @@
+druid-version-number: 0.15.0
+zookeeper-version-number: 3.4.11
+path: defaults/common.runtime.properties
+druid_host: 0.0.0.0
+druid_zk_host: 0.0.0.0

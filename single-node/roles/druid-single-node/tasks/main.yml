@@ -1,6 +1,6 @@
 - name: Download druid zip file
   get_url:
-    url: http://archive.apache.org/dist/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz
+    url: http://archive.apache.org/dist/incubator/druid/{{druid-version-number}}-incubating/apache-druid-{{druid-version-number}}-incubating-bin.tar.gz
     dest: /tmp
 
 - name: create directory
@@ -13,19 +13,19 @@
 
 - name: Extract 
   unarchive:
-    src: /tmp/apache-druid-0.15.0-incubating-bin.tar.gz
+    src: /tmp/apache-druid-{{druid-version-number}}-incubating-bin.tar.gz
     dest: /opt/druid
     extra_opts: [--strip-components=1]
     remote_src: yes
 
-- name: Download druid zip file
+- name: Download zookeeper zip file
   get_url:
-    url: https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz
+    url: https://archive.apache.org/dist/zookeeper/zookeeper-{{zookeeper-version-number}}/zookeeper-{{zookeeper-version-number}}.tar.gz
     dest: /tmp
 
 - name: Extract
   unarchive:
-    src: /tmp/zookeeper-3.4.11.tar.gz
+    src: /tmp/zookeeper-{{zookeeper-version-number}}.tar.gz
     dest: /opt/druid/zk
     extra_opts: [--strip-components=1]
     remote_src: yes
@@ -36,11 +36,11 @@
     dest: /etc/systemd/system/druid.service
     mode: '0644'
 
-- name: listen address
-  lineinfile:
-    path: /opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
-    regexp: '^druid\.host'
-    line: 'druid.host=0.0.0.0'
+- name: config properties for druid
+  template:
+    src: common-runtime-properties.j2
+    dest: /opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
+    mode: '0644'
 
 - name: Make sure a service is running
   systemd:
