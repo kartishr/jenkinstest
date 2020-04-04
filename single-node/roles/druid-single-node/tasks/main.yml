@@ -36,11 +36,11 @@
     dest: /etc/systemd/system/druid.service
     mode: '0644'
 
-- name: listen address
-  lineinfile:
-    path: /opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
-    regexp: '^druid\.host'
-    line: 'druid.host=0.0.0.0'
+- name: config properties for druid
+  template:
+    src: common-runtime-properties.j2
+    dest: /opt/druid/conf/druid/single-server/micro-quickstart/_common/common.runtime.properties
+    mode: '0644'
 
 - name: Make sure a service is running
   systemd:
